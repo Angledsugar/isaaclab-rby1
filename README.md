@@ -6,8 +6,8 @@ RBY1-M은 메카넘 휠 기반 모바일 휴머노이드 로봇으로, 전방향
 
 <table>
 <tr>
-<td align="center"><b>Short Demo</b></td>
 <td align="center"><b>Long Demo</b></td>
+<td align="center"><b>Short Demo</b></td>
 </tr>
 <tr>
 <td>
