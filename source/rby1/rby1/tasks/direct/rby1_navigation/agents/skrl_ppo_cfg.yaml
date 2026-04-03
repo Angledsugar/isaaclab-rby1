@@ -1,11 +1,8 @@
 seed: 42
 
-
-# Models are instantiated using skrl's model instantiator utility
-# https://skrl.readthedocs.io/en/latest/api/utils/model_instantiators.html
 models:
   separate: False
-  policy:  # see gaussian_model parameters
+  policy:
     class: GaussianMixin
     clip_actions: False
     clip_log_std: True
@@ -15,29 +12,23 @@ models:
     network:
       - name: net
         input: OBSERVATIONS
-        layers: [256, 128, 64]
+        layers: [128, 64]
         activations: elu
     output: ACTIONS
-  value:  # see deterministic_model parameters
+  value:
     class: DeterministicMixin
     clip_actions: False
     network:
       - name: net
         input: OBSERVATIONS
-        layers: [256, 128, 64]
+        layers: [128, 64]
         activations: elu
     output: ONE
 
-
-# Rollout memory
-# https://skrl.readthedocs.io/en/latest/api/memories/random.html
 memory:
   class: RandomMemory
-  memory_size: -1  # automatically determined (same as agent:rollouts)
+  memory_size: -1
 
-
-# PPO agent configuration (field names are from PPO_DEFAULT_CONFIG)
-# https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
 agent:
   class: PPO
   rollouts: 24
@@ -64,16 +55,12 @@ agent:
   kl_threshold: 0.0
   rewards_shaper_scale: 0.1
   time_limit_bootstrap: False
-  # logging and checkpoint
   experiment:
-    directory: "rby1_manager"
+    directory: "rby1_nav"
     experiment_name: ""
     write_interval: auto
     checkpoint_interval: auto
 
-
-# Sequential trainer
-# https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
 trainer:
   class: SequentialTrainer
   timesteps: 98304

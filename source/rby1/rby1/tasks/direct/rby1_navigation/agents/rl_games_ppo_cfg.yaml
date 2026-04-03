@@ -1,7 +1,6 @@
 params:
   seed: 42
 
-  # environment wrapper clipping
   env:
     clip_observations: 5.0
     clip_actions: 1.0
@@ -19,7 +18,6 @@ params:
       continuous:
         mu_activation: None
         sigma_activation: None
-
         mu_init:
           name: default
         sigma_init:
@@ -27,10 +25,9 @@ params:
           val: 0
         fixed_sigma: True
     mlp:
-      units: [256, 128, 64]
+      units: [128, 64]
       activation: elu
       d2rl: False
-
       initializer:
         name: default
       regularizer:
@@ -40,7 +37,7 @@ params:
   load_path: ''
 
   config:
-    name: rby1_direct
+    name: rby1_nav
     env_name: rlgpu
     device: 'cuda:0'
     device_name: 'cuda:0'

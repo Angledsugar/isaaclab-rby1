@@ -38,6 +38,8 @@ docker/.container.cfg
 **/output/*
 **/outputs/*
 **/videos/*
+!videos/rby1_teleop_long.mp4
+!videos/rby1_teleop_short.mp4
 **/wandb/*
 **/.neptune/*
 docker/artifacts/
@@ -73,3 +75,10 @@ tests/
 # TacSL sensor
 **/tactile_record/*
 **/gelsight_r15_data/*
+
+.claude/
+
+# Robot model assets (download from rby1-sdk)
+source/rby1/rby1/assets/rby1m/
+source/rby1/rby1/assets/rby1a/
+source/rby1/rby1/assets/rby1ub/

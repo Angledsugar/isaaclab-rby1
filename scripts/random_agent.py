@@ -56,8 +56,11 @@ def main():
     while simulation_app.is_running():
         # run everything in inference mode
         with torch.inference_mode():
-            # sample actions from -1 to 1
-            actions = 2 * torch.rand(env.action_space.shape, device=env.unwrapped.device) - 1
+            actions = torch.zeros(env.action_space.shape, device=env.unwrapped.device)
+            # Wheels: both forward at full speed (action[0]=right, action[1]=left)
+            actions[:, 0] = 1.0  # right wheel forward
+            actions[:, 1] = 1.0  # left wheel forward
+            # Upper body: zero (hold position)
             # apply actions
             env.step(actions)
 

@@ -1,135 +1,219 @@
-# Template for Isaac Lab Projects
+# RBY1 Isaac Lab Extension
 
-## Overview
+Rainbow Robotics RBY1 humanoid robot simulation environment for [Isaac Lab](https://isaac-sim.github.io/IsaacLab).
 
-This project/repository serves as a template for building projects or extensions based on Isaac Lab.
-It allows you to develop in an isolated environment, outside of the core Isaac Lab repository.
+RBY1-M은 메카넘 휠 기반 모바일 휴머노이드 로봇으로, 전방향 이동과 상체 조작이 가능합니다.
 
-**Key Features:**
+<table>
+<tr>
+<td align="center"><b>Short Demo</b></td>
+<td align="center"><b>Long Demo</b></td>
+</tr>
+<tr>
+<td>
 
-- `Isolation` Work outside the core Isaac Lab repository, ensuring that your development efforts remain self-contained.
-- `Flexibility` This template is set up to allow your code to be run as an extension in Omniverse.
+https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_short.mp4
 
-**Keywords:** extension, template, isaaclab
+</td>
+<td>
+
+https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_long.mp4
+
+</td>
+</tr>
+</table>
+
+## Robot Specification
+
+| Component | DOF | Control |
+|-----------|-----|---------|
+| Mecanum Wheels | 4 (fl, fr, rl, rr) | Velocity |
+| Torso | 6 (torso_0~5) | Position |
+| Arms | 14 (7 per arm) | Position |
+| Head | 2 (head_0~1) | Position |
+| Grippers | 4 (2 per hand) | Position |
+| **Total** | **30 DOF** | |
 
 ## Installation
 
-- Install Isaac Lab by following the [installation guide](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html).
-  We recommend using the conda or uv installation as it simplifies calling Python scripts from the terminal.
+### 1. Isaac Lab 설치
 
-- Clone or copy this project/repository separately from the Isaac Lab installation (i.e. outside the `IsaacLab` directory):
+[Isaac Lab Installation Guide](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html)를 참고하여 설치합니다. conda 또는 uv 설치를 권장합니다.
 
-- Using a python interpreter that has Isaac Lab installed, install the library in editable mode using:
+### 2. 로봇 모델 다운로드
 
-    ```bash
-    # use 'PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-    python -m pip install -e source/rby1
+> **RBY1 URDF/메쉬 파일은 이 저장소에 포함되어 있지 않습니다.**
+> [rby1-sdk GitHub](https://github.com/RainbowRobotics/rby1-sdk)에서 로봇 모델 파일을 직접 다운로드하여 아래 경로에 배치하세요.
 
-- Verify that the extension is correctly installed by:
+```
+source/rby1/rby1/assets/
+├── rby1m/          # RBY1 Model M (mecanum wheel) - 주로 사용
+│   ├── model.urdf
+│   └── meshes/
+├── rby1a/          # RBY1 Model A
+└── rby1ub/         # RBY1 Upper Body
+```
 
-    - Listing the available tasks:
-
-        Note: It the task name changes, it may be necessary to update the search pattern `"Template-"`
-        (in the `scripts/list_envs.py` file) so that it can be listed.
-
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/list_envs.py
-        ```
-
-    - Running a task:
-
-        ```bash
-        # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-        python scripts/<RL_LIBRARY>/train.py --task=<TASK_NAME>
-        ```
-
-    - Running a task with dummy agents:
-
-        These include dummy agents that output zero or random agents. They are useful to ensure that the environments are configured correctly.
-
-        - Zero-action agent
-
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/zero_agent.py --task=<TASK_NAME>
-            ```
-        - Random-action agent
-
-            ```bash
-            # use 'FULL_PATH_TO_isaaclab.sh|bat -p' instead of 'python' if Isaac Lab is not installed in Python venv or conda
-            python scripts/random_agent.py --task=<TASK_NAME>
-            ```
-
-### Set up IDE (Optional)
-
-To setup the IDE, please follow these instructions:
-
-- Run VSCode Tasks, by pressing `Ctrl+Shift+P`, selecting `Tasks: Run Task` and running the `setup_python_env` in the drop down menu.
-  When running this task, you will be prompted to add the absolute path to your Isaac Sim installation.
-
-If everything executes correctly, it should create a file .python.env in the `.vscode` directory.
-The file contains the python paths to all the extensions provided by Isaac Sim and Omniverse.
-This helps in indexing all the python modules for intelligent suggestions while writing code.
-
-### Setup as Omniverse Extension (Optional)
-
-We provide an example UI extension that will load upon enabling your extension defined in `source/rby1/rby1/ui_extension_example.py`.
-
-To enable your extension, follow these steps:
-
-1. **Add the search path of this project/repository** to the extension manager:
-    - Navigate to the extension manager using `Window` -> `Extensions`.
-    - Click on the **Hamburger Icon**, then go to `Settings`.
-    - In the `Extension Search Paths`, enter the absolute path to the `source` directory of this project/repository.
-    - If not already present, in the `Extension Search Paths`, enter the path that leads to Isaac Lab's extension directory directory (`IsaacLab/source`)
-    - Click on the **Hamburger Icon**, then click `Refresh`.
-
-2. **Search and enable your extension**:
-    - Find your extension under the `Third Party` category.
-    - Toggle it to enable your extension.
-
-## Code formatting
-
-We have a pre-commit template to automatically format your code.
-To install pre-commit:
+### 3. 패키지 설치
 
 ```bash
-pip install pre-commit
+python -m pip install -e source/rby1
 ```
 
-Then you can run pre-commit with:
+### 4. 설치 확인
 
 ```bash
-pre-commit run --all-files
+python scripts/list_envs.py
 ```
 
-## Troubleshooting
+---
 
-### Pylance Missing Indexing of Extensions
+## Tasks
 
-In some VsCode versions, the indexing of part of the extensions is missing.
-In this case, add the path to your extension in `.vscode/settings.json` under the key `"python.analysis.extraPaths"`.
+### Template-Rby1-Direct-v0 : Whole-Body Control (Direct)
 
-```json
-{
-    "python.analysis.extraPaths": [
-        "<path-to-ext-repo>/source/rby1"
-    ]
-}
+전체 관절(휠 4 + 상체 20)을 직접 제어하는 환경입니다. 로봇이 기본 자세를 유지하도록 학습합니다.
+
+| Item | Detail |
+|------|--------|
+| Action | 24 DOF (4 wheels velocity + 20 upper body delta position) |
+| Observation | 51 (joint pos 24 + joint vel 24 + projected gravity 3) |
+| Episode | 10초 (1200 steps @ 120Hz, decimation 4) |
+| Reward | alive bonus, joint deviation penalty, velocity/acceleration/action rate penalty |
+| Termination | torso tilt > 1.0 rad 또는 timeout |
+
+```bash
+python scripts/random_agent.py --task=Template-Rby1-Direct-v0
 ```
 
-### Pylance Crash
+---
 
-If you encounter a crash in `pylance`, it is probable that too many files are indexed and you run out of memory.
-A possible solution is to exclude some of omniverse packages that are not used in your project.
-To do so, modify `.vscode/settings.json` and comment out packages under the key `"python.analysis.extraPaths"`
-Some examples of packages that can likely be excluded are:
+### Template-Rby1-Nav-v0 : Navigation (Direct)
 
-```json
-"<path-to-isaac-sim>/extscache/omni.anim.*"         // Animation packages
-"<path-to-isaac-sim>/extscache/omni.kit.*"          // Kit UI tools
-"<path-to-isaac-sim>/extscache/omni.graph.*"        // Graph UI tools
-"<path-to-isaac-sim>/extscache/omni.services.*"     // Services tools
-...
+메카넘 휠만 제어하여 랜덤 목표 지점까지 이동하는 네비게이션 환경입니다. Teleop 모드에 최적화되어 있습니다.
+
+| Item | Detail |
+|------|--------|
+| Action | 4 DOF (mecanum wheel velocities) |
+| Observation | 9 (relative target 2 + heading 1 + wheel vel 2 + base vel 2 + distance 1 + heading error 1) |
+| Episode | 300초 (teleop용 긴 에피소드) |
+| Reward | distance reward, heading reward, target reached bonus (+10), action rate penalty |
+| Termination | 낙하 또는 timeout |
+
+```bash
+python scripts/random_agent.py --task=Template-Rby1-Nav-v0
+```
+
+---
+
+### Template-Rby1-v0 : Pose Control (Manager-Based)
+
+Isaac Lab의 Manager 시스템을 사용한 상체 자세 제어 환경입니다. 휠은 제어하지 않고 상체 20 관절만 제어합니다.
+
+| Item | Detail |
+|------|--------|
+| Action | 20 DOF (upper body delta position, scale 0.5 rad) |
+| Observation | joint_pos_rel + joint_vel_rel (auto-managed) |
+| Episode | 10초 |
+| Reward | alive bonus, termination penalty, joint position L2, joint velocity L1 |
+| Termination | timeout |
+
+```bash
+python scripts/random_agent.py --task=Template-Rby1-v0
+```
+
+---
+
+### Template-Rby1-Marl-Direct-v0 : Multi-Agent RL (Direct)
+
+Cart-Double Pendulum 기반의 멀티 에이전트 RL 벤치마크 환경입니다. (RBY1 로봇 환경이 아닌 MARL 레퍼런스 구현)
+
+| Item | Detail |
+|------|--------|
+| Agents | 2 (cart + pendulum) |
+| Action | cart: 1 (force), pendulum: 1 (torque) |
+| Episode | 5초 |
+
+```bash
+python scripts/random_agent.py --task=Template-Rby1-Marl-Direct-v0
+```
+
+---
+
+## Teleop Mode (Keyboard)
+
+키보드로 RBY1의 메카넘 휠을 직접 조종해볼 수 있습니다.
+
+### 실행
+
+```bash
+# 기본 실행
+python scripts/teleop_keyboard.py --task=Template-Rby1-Nav-v0 --num_envs=1
+
+# 동영상 녹화 포함
+python scripts/teleop_keyboard.py --task=Template-Rby1-Nav-v0 --num_envs=1 --video --video_length=500
+```
+
+녹화된 동영상은 `./videos/` 디렉토리에 저장됩니다.
+
+### 조작법
+
+| Key | Action |
+|-----|--------|
+| Arrow Up / Down | 전진 / 후진 |
+| Arrow Left / Right | 좌측 / 우측 횡이동 (strafe) |
+| Z / X | 반시계 / 시계 방향 회전 |
+| L | 정지 |
+
+### Mecanum Wheel Kinematics
+
+```
+wheel_fl = vx - vy - wz
+wheel_fr = vx + vy + wz
+wheel_rl = vx + vy - wz
+wheel_rr = vx - vy + wz
+```
+
+---
+
+## Training
+
+4가지 RL 프레임워크를 지원합니다:
+
+```bash
+# RSL-RL
+python scripts/rsl_rl/train.py --task=<TASK_NAME>
+
+# Stable Baselines 3
+python scripts/sb3/train.py --task=<TASK_NAME>
+
+# SKRL
+python scripts/skrl/train.py --task=<TASK_NAME>
+
+# RL-Games
+python scripts/rl_games/train.py --task=<TASK_NAME>
+```
+
+---
+
+## Project Structure
+
+```
+isaaclab-rby1/
+├── scripts/
+│   ├── teleop_keyboard.py          # 키보드 텔레오퍼레이션
+│   ├── random_agent.py             # 랜덤 에이전트 테스트
+│   ├── zero_agent.py               # 제로 에이전트 테스트
+│   ├── list_envs.py                # 등록된 환경 목록
+│   ├── convert_urdf.py             # URDF → USD 변환
+│   └── rsl_rl/ sb3/ skrl/ rl_games/  # 학습 스크립트
+└── source/rby1/rby1/
+    ├── assets/                     # 로봇 URDF & 메쉬 (별도 다운로드)
+    └── tasks/
+        ├── direct/
+        │   ├── rby1/               # Whole-Body Control
+        │   ├── rby1_navigation/    # Navigation
+        │   └── rby1_marl/          # Multi-Agent RL
+        └── manager_based/
+            └── rby1/               # Manager-Based Pose Control
 ```
