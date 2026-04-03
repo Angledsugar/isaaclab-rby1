@@ -11,14 +11,10 @@ RBY1-M은 메카넘 휠 기반 모바일 휴머노이드 로봇으로, 전방향
 </tr>
 <tr>
 <td>
-
-https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_short.mp4
-
+<video src="https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_short.mp4" controls width="400"></video>
 </td>
 <td>
-
-https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_long.mp4
-
+<video src="https://github.com/Angledsugar/isaaclab-rby1/raw/main/videos/rby1_teleop_long.mp4" controls width="400"></video>
 </td>
 </tr>
 </table>
